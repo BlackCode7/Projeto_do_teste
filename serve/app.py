@@ -1,11 +1,10 @@
-from flask import Flask, render_template, url_for, request
+from flask import Flask, render_template, url_for, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import redirect
 
 app = Flask(__name__, template_folder='templates')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cadastroLivros.sqlite3'
 db = SQLAlchemy(app)
-
 
 class BancoLivro(db.Model):
     id = db.Column('id', db.Integer, primary_key=True)
@@ -19,12 +18,15 @@ class BancoLivro(db.Model):
         self.autor = autor
         self.lido = lido
 
+    def as_dict(self):
+       return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 @app.route('/')
 def index():
-    livros = BancoLivro.query.all()
-    return render_template('index.html', livros=livros)
-
+    livros = []
+    for livro in BancoLivro.query.all():
+        livros.append(livro.as_dict())
+    return jsonify(livros)
 
 @app.route('/add', methods=['GET', 'POST'])
 def add():
