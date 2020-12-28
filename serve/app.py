@@ -6,6 +6,7 @@ app = Flask(__name__, template_folder='templates')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cadastroLivros.sqlite3'
 db = SQLAlchemy(app)
 
+
 class BancoLivro(db.Model):
     id = db.Column('id', db.Integer, primary_key=True)
     livro = db.Column(db.String(100), nullable=False)
@@ -21,12 +22,15 @@ class BancoLivro(db.Model):
     def as_dict(self):
        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
+
 @app.route('/')
 def index():
     livros = []
     for livro in BancoLivro.query.all():
         livros.append(livro.as_dict())
+
     return jsonify(livros)
+
 
 @app.route('/add', methods=['GET', 'POST'])
 def add():

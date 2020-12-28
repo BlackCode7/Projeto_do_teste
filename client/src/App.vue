@@ -3,7 +3,7 @@
 
     <nav>
       <div class="nav-wrapper blue darken-1">
-        <a href="#" class="brand-logo center">Cadastro Livros</a>
+        <a href="#" class="brand-logo center">Produtos Front</a>
       </div>
     </nav>
 
@@ -11,14 +11,12 @@
 
       <form>
 
-          <label>Id</label>
-          <input type="number" placeholder="Id">
           <label>Nome</label>
           <input type="text" placeholder="Nome">
-          <label>Autor</label>
-          <input type="text" placeholder="Autor">
-          <label>Lido</label>
-          <input type="text" placeholder="Já leu o livros? sim / não">
+          <label>Quantidade</label>
+          <input type="number" placeholder="QTD">
+          <label>Valor</label>
+          <input type="text" placeholder="Valor">
 
           <button class="waves-effect waves-light btn-small">Salvar<i class="material-icons left">save</i></button>
 
@@ -29,10 +27,10 @@
         <thead>
 
           <tr>
-            <th>ID</th>
-            <th>NOME DO LIVRO</th>
-            <th>NOME DO AUTOR</th>
-            <th>LIDO</th>
+            <th>NOME</th>
+            <th>QTD</th>
+            <th>VALOR</th>
+            <th>OPÇÕES</th>
           </tr>
 
         </thead>
@@ -41,13 +39,12 @@
 
           <tr>
 
-            <td>Id</td>
-            <td>Nome</td>
-            <td>Autor</td>
-            <td>Lido</td>
+            <td>Arduino</td>
+            <td>100</td>
+            <td>50.00</td>
             <td>
               <button class="waves-effect btn-small blue darken-1"><i class="material-icons">create</i></button>
-              <button class="waves-effect btn-small red darken-1"><i class="material-icons">delete</i></button>
+              <button class="waves-effect btn-small red darken-1"><i class="material-icons">delete_sweep</i></button>
             </td>
 
           </tr>
@@ -63,18 +60,8 @@
 
 <script>
 
-import Livro from './services/Livros'
-
-export default {
-  
-  mounted(){
-    Livro.listar().then(resposta => {
-      console.log(resposta)
-    })
-  }
-
+export default {  
 }
-
 </script>
 
 <style>
