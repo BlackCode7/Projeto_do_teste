@@ -1,8 +1,10 @@
 from flask import Flask, render_template, url_for, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import redirect
+from flask_cors import CORS
 
 app = Flask(__name__, template_folder='templates')
+CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cadastroLivros.sqlite3'
 db = SQLAlchemy(app)
 
@@ -23,7 +25,7 @@ class BancoLivro(db.Model):
        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 
-@app.route('/')
+@app.route('/livros')
 def index():
     livros = []
     for livro in BancoLivro.query.all():
