@@ -27,18 +27,15 @@
       <table>
 
         <thead>
-
           <tr>
             <th>ID</th>
             <th>NOME DO LIVRO</th>
             <th>NOME DO AUTOR</th>
             <th>LIDO</th>
           </tr>
-
         </thead>
 
         <tbody>
-
           <tr v-for="livro1 in livros" :key="livro1.id">
             <td>{{ livro1.id }}</td>
             <td>{{ livro1.livro }}</td>
@@ -48,9 +45,7 @@
               <button class="waves-effect btn-small blue darken-1"><i class="material-icons">create</i></button>
               <button class="waves-effect btn-small red darken-1"><i class="material-icons">delete</i></button>
             </td>
-
           </tr>
-
         </tbody>
       
       </table>
@@ -64,8 +59,7 @@
 
 import Livro from '../services/Livros'
 
-export default {
-  
+export default {  
   
   data(){
     return {
@@ -77,6 +71,8 @@ export default {
     }
   },
   
+  //montando a resposta que vem de services Livros
+  //dentro da variavel Livro
   mounted(){
     Livro.listar().then(resposta => {
       console.log(resposta.data)

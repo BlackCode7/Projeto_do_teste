@@ -8,6 +8,7 @@ import Livro from './components/livros'
 
 export default {
    components: {
+     //nome da tag <livros-anderson>
      'livros-anderson': Livro
    }
 }

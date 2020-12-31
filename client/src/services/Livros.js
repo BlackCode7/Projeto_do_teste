@@ -1,7 +1,8 @@
 import { http } from './config'
 
+// Este é o meu sufixo
 export default{
     listar:() => {
-        return http.get('Livros')
+        return http.get('livros')
     }
 }
