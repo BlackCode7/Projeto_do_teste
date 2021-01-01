@@ -10,7 +10,7 @@
     <div class="container">
 
       <ul>
-        <li v-for="(error, index) of erros" :key="index">
+        <li v-for="(error, index) of errors" :key="index">
           campo <b> {{error.field}} </b> - {{ error.defaultMessage }}
         </li>
       </ul>
@@ -74,7 +74,7 @@ export default {
         lido: null
       },
       Livros:[],
-      erros:[]    
+      errors:[]    
     }
   },  
   //montando a resposta que vem de services Livros
@@ -98,10 +98,10 @@ export default {
           console.log(resposta.data)
           alert('Livro salvo com sucesso!')
           this.listar()
-          this.erros = []
+          this.errors = []
         }).catch(e => {
-          console.log(e.resposta.data.erros)
-          this.erros = e.resposta.data.erros
+          console.log(e.resposta.data.errors)
+          this.errors = e.resposta.data.errors
         })
       }else{
         Livros.atualizar(this.livro).then(resposta => {
@@ -109,10 +109,10 @@ export default {
           console.log(resposta.data)
           alert('Atualizado com Sucesso!')
           this.listar()
-          this.erros = []
+          this.errors = []
         }).catch(e => {
-          console.log(e.resposta.data.erros)
-          this.erros = e.resposta.data.erros
+          console.log(e.resposta.data.errors)
+          this.errors = e.resposta.data.errors
         })
       }
     },
@@ -126,9 +126,9 @@ export default {
         Livros.apagar(livro).then(resposta => {
           console.log(resposta)
           this.listar();
-          this.erros = []
+          this.errors = []
         }).catch(e => {
-          this.erros = e.response.data.erros
+          this.errors = e.response.data.errors
         })
       }
     }    
