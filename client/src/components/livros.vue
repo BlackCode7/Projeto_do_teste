@@ -64,7 +64,7 @@ export default {
   
   data(){
     return {
-      livros: null,
+      //livros: null,
       livro: {
         id: null,
         livro1: null,
@@ -87,8 +87,24 @@ export default {
         this.Livros = resposta.data
       })
     },
-    
-    
+
+    salvar(){
+      if(this.livro.id){
+        Livros.salvar(this.livro).then(resposta => {
+          this.livro = {}
+          //
+          console.log(resposta.data)
+          alert('Livro salvo com sucesso!')
+          this.listar()
+          this.erros = []
+        }).catch(e => {
+          console.log(e.resposta.data.erros)
+          this.erros = e.resposta.data.erros
+        })
+      }else{
+        Livros
+      }
+    }    
   }
 
 }

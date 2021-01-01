@@ -9,5 +9,9 @@ export default{
     // Métodos para salvar items
     salvar:(livros) => {
         return http.post('livros', livros)
-    }   
+    },
+    atualizar:(livros) => {
+        return http.put('livros', livros)
+    },
+       
 }
