@@ -57,7 +57,8 @@
 
 <script>
 
-import Livro from '../services/Livros'
+import Livros from '../services/Livros'
+
 
 export default {  
   
@@ -66,24 +67,25 @@ export default {
       livros: null,
       livro: {
         id: null,
-        livro1: null
-      }    
+        livro1: null,
+        autor:null,
+        lido: null
+      },
+      erros:[]    
     }
   },
   
   //montando a resposta que vem de services Livros
   //dentro da variavel Livro
   mounted(){
-    Livro.listar().then(resposta => {
+    Livros.listar().then(resposta => {
       console.log(resposta.data)
       this.livros = resposta.data
     })
   },
 
   methods: {
-    mensage(){
-      alert(this.livro.livro)
-    }
+        
   }
 
 }
