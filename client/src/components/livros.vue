@@ -20,7 +20,7 @@
           <label>Lido</label>
           <input type="text" placeholder="JÃ¡ leu o livros? sim / nÃ£o">
 
-          <button @click.prevent="mensage()" class="waves-effect waves-light btn-small">Salvar<i class="material-icons left">save</i></button>
+          <button @submit.prevent="salvar()" class="waves-effect waves-light btn-small">Salvar<i class="material-icons left">save</i></button>
 
       </form>
 
@@ -78,14 +78,17 @@ export default {
   //montando a resposta que vem de services Livros
   //dentro da variavel Livro
   mounted(){
-    Livros.listar().then(resposta => {
-      console.log(resposta.data)
-      this.livros = resposta.data
-    })
+    this.listar()
   },
 
   methods: {
-        
+    listar(){
+      Livros.listar().then(resposta => {
+        this.Livros = resposta.data
+      })
+    },
+    
+    
   }
 
 }
