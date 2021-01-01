@@ -113,6 +113,9 @@ export default {
           this.erros = e.resposta.data.erros
         })
       }
+    },
+    editar(livro){
+      this.livro = livro
     }    
   }
 
