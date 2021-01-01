@@ -102,7 +102,16 @@ export default {
           this.erros = e.resposta.data.erros
         })
       }else{
-        Livros
+        Livros.atualizar(this.livro).then(resposta => {
+          this.livro = {}
+          console.log(resposta.data)
+          alert('Atualizado com Sucesso!')
+          this.listar()
+          this.erros = []
+        }).catch(e => {
+          console.log(e.resposta.data.erros)
+          this.erros = e.resposta.data.erros
+        })
       }
     }    
   }
