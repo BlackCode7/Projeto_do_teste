@@ -9,6 +9,12 @@
 
     <div class="container">
 
+      <ul>
+        <li v-for="(error, index) of erros" :key="index">
+          campo <b> {{error.field}} </b> - {{ error.defaultMessage }}
+        </li>
+      </ul>
+
       <form>
 
           <label>Id</label>
@@ -42,8 +48,8 @@
             <td>{{ livro1.autor }}</td>
             <td>{{ livro1.lido }}</td>
             <td>
-              <button class="waves-effect btn-small blue darken-1"><i class="material-icons">create</i></button>
-              <button class="waves-effect btn-small red darken-1"><i class="material-icons">delete</i></button>
+              <button @click="editar(livro)" class="waves-effect btn-small blue darken-1"><i class="material-icons">create</i></button>
+              <button @click="remover(livro)" class="waves-effect btn-small red darken-1"><i class="material-icons">delete</i></button>
             </td>
           </tr>
         </tbody>
@@ -56,12 +62,8 @@
 </template>
 
 <script>
-
 import Livros from '../services/Livros'
-
-
-export default {  
-  
+export default {    
   data(){
     return {
       //livros: null,
@@ -71,10 +73,10 @@ export default {
         autor:null,
         lido: null
       },
+      Livros:[],
       erros:[]    
     }
-  },
-  
+  },  
   //montando a resposta que vem de services Livros
   //dentro da variavel Livro
   mounted(){
@@ -82,17 +84,17 @@ export default {
   },
 
   methods: {
+    // Listar itens da lista
     listar(){
       Livros.listar().then(resposta => {
         this.Livros = resposta.data
       })
     },
-
+    // Salvar itens da lista
     salvar(){
       if(this.livro.id){
         Livros.salvar(this.livro).then(resposta => {
           this.livro = {}
-          //
           console.log(resposta.data)
           alert('Livro salvo com sucesso!')
           this.listar()
@@ -114,15 +116,23 @@ export default {
         })
       }
     },
+    // Editar itens da lista
     editar(livro){
       this.livro = livro
+    },
+    // Remover itens da lista
+    remover(livro) {
+      if(confirm('Deseja realmente excluir o livro:')){
+        Livros.apagar(livro).then(resposta => {
+          console.log(resposta)
+          this.listar();
+          this.erros = []
+        }).catch(e => {
+          this.erros = e.response.data.erros
+        })
+      }
     }    
   }
-
 }
 
 </script>
-
-<style>
-
-</style>
