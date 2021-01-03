@@ -13,7 +13,7 @@
         <li v-for="(error, index) of errors" :key="index">
           campo <b> {{error.field}} </b> - {{ error.defaultMessage }}
         </li>
-      </ul>
+      </ul>    
 
       <form>
 
@@ -22,11 +22,11 @@
           <label>livro</label>
           <input v-model="livro.livro" type="text" placeholder="Nome">
           <label>autor</label>
-          <input type="text" placeholder="Autor">
+          <input v-model="livro.autor" type="text" placeholder="Autor">
           <label>Lido</label>
-          <input type="text" placeholder="JÃ¡ leu o livros? sim / nÃ£o">
+          <input v-model="livro.lido" type="text" placeholder="JÃ¡ leu o livros? sim / nÃ£o">
 
-          <button @submit.prevent="salvar()" class="waves-effect waves-light btn-small">Salvar<i class="material-icons left">save</i></button>
+          <button @submit.prevent.stop="salvar()" class="waves-effect waves-light btn-small">Salvar<i class="material-icons left">save</i></button>
 
       </form>
 
@@ -48,8 +48,8 @@
             <td>{{ livro1.autor }}</td>
             <td>{{ livro1.lido }}</td>
             <td>
-              <button @click="editar(livro)" class="waves-effect btn-small blue darken-1"><i class="material-icons">create</i></button>
-              <button @click="remover(livro)" class="waves-effect btn-small red darken-1"><i class="material-icons">delete</i></button>
+              <button @click.prevent.stop="editar(livro)" class="waves-effect btn-small blue darken-1"><i class="material-icons">create</i></button>
+              <button @click.prevent.stop="remover(livro)" class="waves-effect btn-small red darken-1"><i class="material-icons">delete</i></button>
             </td>
           </tr>
         </tbody>
@@ -68,15 +68,18 @@ export default {
     return {
       //livros: null,
       livro: {
+        
         id: null,
         livro1: null,
         autor:null,
         lido: null
       },
+      livros:[],
       Livros:[],
       errors:[]    
     }
   },  
+  
   //montando a resposta que vem de services Livros
   //dentro da variavel Livro
   mounted(){
@@ -84,13 +87,14 @@ export default {
   },
 
   methods: {
-    // Listar itens da lista
+    
+    // Listar os itens da lista de livros
     listar(){
       Livros.listar().then(resposta => {
         this.Livros = resposta.data
       })
     },
-    // Salvar itens da lista
+    // Salvar itens da lista e listar na tela ao mesmo tempo
     salvar(){
       if(this.livro.id){
         Livros.salvar(this.livro).then(resposta => {
