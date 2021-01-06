@@ -42,7 +42,8 @@ def add():
         db.session.add(adic_livro)
         #aqui salvamos no banco
         db.session.commit()
-        return redirect(url_for('index'))
+        #return redirect(url_for('index'))
+        return jsonify(adic_livro)
     return render_template('add.html')
 
 

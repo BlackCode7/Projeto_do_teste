@@ -13,7 +13,7 @@ export default{
     atualizar:(livros) => {
         return http.put('livros', livros)
     },
-    apagar:(livros) => {
+    delete:(livros) => {
         return http.delete('livros', {data: livros})
     }
 

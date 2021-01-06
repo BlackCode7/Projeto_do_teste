@@ -127,7 +127,7 @@ export default {
     // Remover itens da lista
     remover(livro) {
       if(confirm('Deseja realmente excluir o livro:')){
-        serviceLivros.apagar(livro).then(resposta => {
+        serviceLivros.delete(livro).then(resposta => {
           console.log(resposta)
           this.listar();
           this.errors = []
