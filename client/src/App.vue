@@ -4,12 +4,12 @@
 
 <script>
 
-import Livro from './components/livros'
+import componenteLivro from './components/livros'
 
 export default {
    components: {
      //nome da tag <livros-anderson>
-     'livros-anderson': Livro
+     'livros-anderson': componenteLivro
    }
 }
 

@@ -3,7 +3,7 @@
 
     <nav>
       <div class="nav-wrapper blue darken-1">
-        <a href="#" class="brand-logo center">Cadastro Livros</a>
+        <a href="#" class="brand-logo center">Cadastro de Livros</a>
       </div>
     </nav>
 
@@ -24,9 +24,9 @@
           <label>autor</label>
           <input v-model="livro.autor" type="text" placeholder="Autor">
           <label>Lido</label>
-          <input v-model="livro.lido" type="text" placeholder="JÃ¡ leu o livros? sim / nÃ£o">
+          <input v-model="livro.lido" type="text" placeholder="Já leu o livros? sim / nÃ£o">
 
-          <button @submit.prevent.stop="salvar()" class="waves-effect waves-light btn-small">Salvar<i class="material-icons left">save</i></button>
+          <button @click.prevent.stop="salvar()" class="waves-effect waves-light btn-small">Salvar<i class="material-icons left">save</i></button>
 
       </form>
 
@@ -42,11 +42,11 @@
         </thead>
 
         <tbody>
-          <tr v-for="livro1 in livros" :key="livro1.id">
-            <td>{{ livro1.id }}</td>
-            <td>{{ livro1.livro }}</td>
-            <td>{{ livro1.autor }}</td>
-            <td>{{ livro1.lido }}</td>
+          <tr v-for="livro in livros" :key="livro.id">
+            <td>{{ livro.id }}</td>
+            <td>{{ livro.livro }}</td>
+            <td>{{ livro.autor }}</td>
+            <td>{{ livro.lido }}</td>
             <td>
               <button @click.prevent.stop="editar(livro)" class="waves-effect btn-small blue darken-1"><i class="material-icons">create</i></button>
               <button @click.prevent.stop="remover(livro)" class="waves-effect btn-small red darken-1"><i class="material-icons">delete</i></button>
@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import Livros from '../services/Livros'
+import serviceLivros from '../services/Livros'
 export default {    
   data(){
     return {
@@ -70,12 +70,12 @@ export default {
       livro: {
         
         id: null,
-        livro1: null,
+        livro: null,
         autor:null,
         lido: null
       },
-      livros:[],
-      Livros:[],
+      
+      serviceLivros:[],
       errors:[]    
     }
   },  
@@ -90,14 +90,14 @@ export default {
     
     // Listar os itens da lista de livros
     listar(){
-      Livros.listar().then(resposta => {
-        this.Livros = resposta.data
+      serviceLivros.listar().then(resposta => {
+        this.serviceLivros = resposta.data
       })
     },
     // Salvar itens da lista e listar na tela ao mesmo tempo
     salvar(){
       if(this.livro.id){
-        Livros.salvar(this.livro).then(resposta => {
+        serviceLivros.salvar(this.livro).then(resposta => {
           this.livro = {}
           console.log(resposta.data)
           alert('Livro salvo com sucesso!')
@@ -108,7 +108,7 @@ export default {
           this.errors = e.resposta.data.errors
         })
       }else{
-        Livros.atualizar(this.livro).then(resposta => {
+        serviceLivros.atualizar(this.livro).then(resposta => {
           this.livro = {}
           console.log(resposta.data)
           alert('Atualizado com Sucesso!')
@@ -127,7 +127,7 @@ export default {
     // Remover itens da lista
     remover(livro) {
       if(confirm('Deseja realmente excluir o livro:')){
-        Livros.apagar(livro).then(resposta => {
+        serviceLivros.apagar(livro).then(resposta => {
           console.log(resposta)
           this.listar();
           this.errors = []
