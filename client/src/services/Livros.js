@@ -4,17 +4,17 @@ import { http } from './config'
 export default{
     // Método para listar items
     listar:() => {
-        return http.get('livros')
+        return http.get('Livros')
     },
     // Métodos para salvar items
     salvar:(livros) => {
-        return http.post('livros', livros)
+        return http.post('Livros', livros)
     },
-    atualizar:(livros) => {
-        return http.put('livros', livros)
+    edit:(livros) => {
+        return http.put('Livros', livros)
     },
     delete:(livros) => {
-        return http.delete('livros', {data: livros})
+        return http.delete('Livros', {data: livros})
     }
 
 }

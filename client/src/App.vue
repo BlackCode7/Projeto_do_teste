@@ -3,7 +3,7 @@
 </template>
 
 <script>
-
+//mudei o nome do import pra poder diferenciar
 import componenteLivro from './components/livros'
 
 export default {

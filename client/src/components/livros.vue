@@ -49,7 +49,8 @@
             <td>{{ livro.lido }}</td>
             <td>
               <button @click.prevent.stop="editar(livro)" class="waves-effect btn-small blue darken-1"><i class="material-icons">create</i></button>
-              <button @click.prevent.stop="remover(livro)" class="waves-effect btn-small red darken-1"><i class="material-icons">delete</i></button>
+              <button @click.prevent.stop="delete(livro)" class="waves-effect btn-small red darken-1"><i class="material-icons">delete</i></button>
+
             </td>
           </tr>
         </tbody>
@@ -62,13 +63,14 @@
 </template>
 
 <script>
+// Mudei o nome da varial de import para ficar mais claro e diferenciar 
+// Mais os nomes entre variáveis
 import serviceLivros from '../services/Livros'
 export default {    
   data(){
     return {
       //livros: null,
-      livro: {
-        
+      livro: {        
         id: null,
         livro: null,
         autor:null,
@@ -121,11 +123,11 @@ export default {
       }
     },
     // Editar itens da lista
-    editar(livro){
+    edit(livro){
       this.livro = livro
     },
     // Remover itens da lista
-    remover(livro) {
+    delete(livro) {
       if(confirm('Deseja realmente excluir o livro:')){
         serviceLivros.delete(livro).then(resposta => {
           console.log(resposta)

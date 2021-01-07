@@ -25,7 +25,7 @@ class BancoLivro(db.Model):
        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 #@app.route('/livros')
-@app.route('/livros')
+@app.route('/Livros')
 def index():
     livros = []
     for livro in BancoLivro.query.all():
@@ -42,8 +42,8 @@ def add():
         db.session.add(adic_livro)
         #aqui salvamos no banco
         db.session.commit()
-        #return redirect(url_for('index'))
-        return jsonify(adic_livro)
+        return redirect(url_for('index'))
+        #return jsonify(adic_livro)
     return render_template('add.html')
 
 
