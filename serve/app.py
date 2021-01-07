@@ -42,8 +42,8 @@ def add():
         db.session.add(adic_livro)
         #aqui salvamos no banco
         db.session.commit()
-        return redirect(url_for('index'))
-        #return jsonify(adic_livro)
+        #return redirect(url_for('index'))
+        return jsonify(adic_livro)
     return render_template('add.html')
 
 
@@ -56,7 +56,8 @@ def edit(id):
         editalivrobanco.autor = request.form['autor']
         editalivrobanco.lido = request.form['lido']
         db.session.commit()
-        return redirect(url_for('index'))
+        return jsonify(editalivrobanco)
+        #return redirect(url_for('index'))
     return render_template('edit.html', editalivrobanco=editalivrobanco)
 
 
@@ -65,7 +66,8 @@ def delete(id):
     deleta_livro_banco = BancoLivro.query.get(id)
     db.session.delete(deleta_livro_banco)
     db.session.commit()
-    return redirect(url_for('index'))
+    return jsonify(deleta_livro_banco)
+    #return redirect(url_for('index'))
 
 
 if __name__ == '__main__':
