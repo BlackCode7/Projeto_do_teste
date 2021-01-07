@@ -49,7 +49,7 @@
             <td>{{ livro.lido }}</td>
             <td>
               <button @click.prevent.stop="editar(livro)" class="waves-effect btn-small blue darken-1"><i class="material-icons">create</i></button>
-              <button @click.prevent.stop="delete(livro)" class="waves-effect btn-small red darken-1"><i class="material-icons">delete</i></button>
+              <button @click.prevent.stop="deletar(livro)" class="waves-effect btn-small red darken-1"><i class="material-icons">delete</i></button>
 
             </td>
           </tr>
@@ -127,7 +127,7 @@ export default {
       this.livro = livro
     },
     // Remover itens da lista
-    delete(livro) {
+    deletar(livro) {
       if(confirm('Deseja realmente excluir o livro:')){
         serviceLivros.delete(livro).then(resposta => {
           console.log(resposta)

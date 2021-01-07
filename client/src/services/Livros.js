@@ -13,7 +13,7 @@ export default{
     edit:(livros) => {
         return http.put('Livros', livros)
     },
-    delete:(livros) => {
+    deletar:(livros) => {
         return http.delete('Livros', {data: livros})
     }
 

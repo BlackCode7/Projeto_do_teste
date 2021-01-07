@@ -30,7 +30,6 @@ def index():
     livros = []
     for livro in BancoLivro.query.all():
         livros.append(livro.as_dict())
-
     return jsonify(livros)
 
 
@@ -61,8 +60,8 @@ def edit(id):
     return render_template('edit.html', editalivrobanco=editalivrobanco)
 
 
-@app.route('/delete/<int:id>')
-def delete(id):
+@app.route('/deletar/<int:id>')
+def deletar(id):
     deleta_livro_banco = BancoLivro.query.get(id)
     db.session.delete(deleta_livro_banco)
     db.session.commit()
