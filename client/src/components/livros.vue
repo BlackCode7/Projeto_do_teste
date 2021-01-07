@@ -118,7 +118,7 @@ export default {
           this.errors = []
         }).catch(e => {
           console.log(e.resposta.data.errors)
-          this.errors = e.resposta.data.errors
+          this.errors = e.resposta.data
         })
       }
     },
