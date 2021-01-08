@@ -43,13 +43,16 @@
 
         <tbody>
           <tr v-for="livro1 in livros" :key="livro1.id">
-            <td>{{ livro1.id }}</td>
-            <td>{{ livro1.livro }}</td>
-            <td>{{ livro1.autor }}</td>
-            <td>{{ livro1.lido }}</td>
+            <!--{{ livro1.id }}-->
+            <td>ID</td>
+            <td>LIVRO</td>
+            <td>AUTOR</td>
+            <td>LIDO</td>
             <td>
-              <button @click.prevent.stop="editar(livro)" class="waves-effect btn-small blue darken-1"><i class="material-icons">create</i></button>
-              <button @click.prevent.stop="remover(livro)" class="waves-effect btn-small red darken-1"><i class="material-icons">delete</i></button>
+              <!--@click.prevent.stop="editar(livro)"-->
+              <button  class="waves-effect btn-small blue darken-1"><i class="material-icons">create</i></button>
+              <!--@click.prevent.stop="remover(livro)"-->
+              <button  class="waves-effect btn-small red darken-1"><i class="material-icons">delete</i></button>
             </td>
           </tr>
         </tbody>
@@ -62,81 +65,9 @@
 </template>
 
 <script>
-import Livros from '../services/Livros'
+//import Livros from '../services/Livros'
 export default {    
-  data(){
-    return {
-      //livros: null,
-      livro: {
-        
-        id: null,
-        livro1: null,
-        autor:null,
-        lido: null
-      },
-      livros:[],
-      Livros:[],
-      errors:[]    
-    }
-  },  
   
-  //montando a resposta que vem de services Livros
-  //dentro da variavel Livro
-  mounted(){
-    this.listar()
-  },
-
-  methods: {
-    
-    // Listar os itens da lista de livros
-    listar(){
-      Livros.listar().then(resposta => {
-        this.Livros = resposta.data
-      })
-    },
-    // Salvar itens da lista e listar na tela ao mesmo tempo
-    salvar(){
-      if(this.livro.id){
-        Livros.salvar(this.livro).then(resposta => {
-          this.livro = {}
-          console.log(resposta.data)
-          alert('Livro salvo com sucesso!')
-          this.listar()
-          this.errors = []
-        }).catch(e => {
-          console.log(e.resposta.data.errors)
-          this.errors = e.resposta.data.errors
-        })
-      }else{
-        Livros.atualizar(this.livro).then(resposta => {
-          this.livro = {}
-          console.log(resposta.data)
-          alert('Atualizado com Sucesso!')
-          this.listar()
-          this.errors = []
-        }).catch(e => {
-          console.log(e.resposta.data.errors)
-          this.errors = e.resposta.data.errors
-        })
-      }
-    },
-    // Editar itens da lista
-    editar(livro){
-      this.livro = livro
-    },
-    // Remover itens da lista
-    remover(livro) {
-      if(confirm('Deseja realmente excluir o livro:')){
-        Livros.apagar(livro).then(resposta => {
-          console.log(resposta)
-          this.listar();
-          this.errors = []
-        }).catch(e => {
-          this.errors = e.response.data.errors
-        })
-      }
-    }    
-  }
 }
 
 </script>
