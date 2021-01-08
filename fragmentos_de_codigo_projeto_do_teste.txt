@@ -1,0 +1,58 @@
+services/Livros.js
+
+// Métodos para salvar items
+    salvar:(livros) => {
+        return http.post('Livros', livros)
+    },
+    edit:(livros) => {
+        return http.put('Livros', livros)
+    },
+    deletar:(livros) => {
+        return http.delete('Livros', {data: livros})
+    }
+
+
+components/livros.vue
+
+// Salvar itens da lista e listar na tela ao mesmo tempo
+    salvar(){
+      if(this.livro.id){
+        serviceLivros.salvar(this.livro).then(resposta => {
+          this.livro = {}
+          console.log(resposta.data)
+          alert('Livro salvo com sucesso!')
+          this.listar()
+          this.errors = []
+        }).catch(e => {
+          console.log(e.resposta.data.errors)
+          this.errors = e.resposta.data.errors
+        })
+      }else{
+        serviceLivros.atualizar(this.livro).then(resposta => {
+          this.livro = {}
+          console.log(resposta.data)
+          alert('Atualizado com Sucesso!')
+          this.listar()
+          this.errors = []
+        }).catch(e => {
+          console.log(e.resposta.data.errors)
+          this.errors = e.resposta.data
+        })
+      }
+    },
+    // Editar itens da lista
+    edit(livro){
+      this.livro = livro
+    },
+    // Remover itens da lista
+    deletar(livro) {
+      if(confirm('Deseja realmente excluir o livro:')){
+        serviceLivros.delete(livro).then(resposta => {
+          console.log(resposta)
+          this.listar();
+          this.errors = []
+        }).catch(e => {
+          this.errors = e.response.data.errors
+        })
+      }
+    }

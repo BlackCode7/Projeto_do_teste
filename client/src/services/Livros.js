@@ -5,16 +5,7 @@ export default{
     // Método para listar items
     listar:() => {
         return http.get('Livros')
-    },
-    // Métodos para salvar items
-    salvar:(livros) => {
-        return http.post('Livros', livros)
-    },
-    edit:(livros) => {
-        return http.put('Livros', livros)
-    },
-    deletar:(livros) => {
-        return http.delete('Livros', {data: livros})
     }
+    
 
 }
