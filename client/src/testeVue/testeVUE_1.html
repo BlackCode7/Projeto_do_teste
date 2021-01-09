@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Testando entendimento de api com vue</title> 
+    </head>
+    <body>
+        <div id="app">
+            <h1>Entendendo o fluxo da informação no vue</h1>
+            {{ info }}
+            <div
+                v-for="currency in info"
+                class="currency">
+                {{ currency.description }} :
+                <span v-html="currency.simbol"></span>{{ currency.rate_float | currencydecimal }}
+            </div>
+        </div>
+        
+        <script src="http://unpkg.com/vue"></script>
+        <script>
+            
+            new Vue({
+                el: "#app",
+                data(){
+                    // definindo a variavel que vou renderizar
+                    // esta variável deve ir pro mounted(){}
+                    return{
+                        info: null
+                    }                    
+                },
+                mounted() {
+                    // Aqui vou montar a resposta que deve ir pra 
+                    // dentro da variavel que eu criei info em data(){}
+                    axios
+                        .get('https://api.coindesk.com/v1/bpi/currentprice.json')
+                        .then(response => (this.info = response.data.bpi))
+                        console.log(this.info)
+                },
+
+                filters:{
+                    currencydecimal (value){
+                        return value.toFixed(2)
+                    }
+                },
+            })
+        </script>
+    </body>
+</html>

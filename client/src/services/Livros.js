@@ -5,7 +5,8 @@ export default{
     // Método para listar items
     listar:() => {
         return http.get('Livros')
+    },
+    add:() => {
+        return http.post('add')
     }
-    
-
 }

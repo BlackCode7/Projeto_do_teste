@@ -33,17 +33,18 @@ def index():
     return jsonify(livros)
 
 
-@app.route('/add', methods=['GET', 'POST'])
-def add():
+@app.route('/add', methods=['POST'])
+def add(adic_livro):
     if request.method == 'POST':
         adic_livro = BancoLivro(request.form['id'], request.form['livro'],
                            request.form['autor'], request.form['lido'])
         db.session.add(adic_livro)
         #aqui salvamos no banco
         db.session.commit()
-        return redirect(url_for('index'))
-        #return jsonify(adic_livro)
+        #return redirect(url_for('index'))
+        return jsonify(adic_livro)
     return render_template('add.html')
+    #return jsonify(adic_livro)
 
 
 @app.route('/edit/<int:id>', methods=['GET', 'POST'])

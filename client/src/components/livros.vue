@@ -67,38 +67,44 @@
 <script>
 // Mudei o nome da varial de import para ficar mais claro e diferenciar 
 // Mais os nomes entre variáveis
-import serviceLivros from '../services/Livros'
+import Livros from '../services/Livros'
 export default {    
   data(){
     return {
       //livros: null,
       livro: {        
         id: null,
-        livro: null,
+        livros: null,
         autor:null,
         lido: null
       },
       
-      serviceLivros:[],
-      errors:[]    
+      Livros:null,
+         
     }
   },  
   
   //montando a resposta que vem de services Livros
   //dentro da variavel Livro
   mounted(){
-    this.listar()
+    this.listar(),
+    this.add()
   },
 
-  methods: {
-    
+  methods: {    
     // Listar os itens da lista de livros
     listar(){
-      serviceLivros.listar().then(resposta => {
-        this.serviceLivros = resposta.data
+      Livros.listar().then(resposta => {
+        this.Livros = resposta.data
       })
     },
-        
+    
+    add(){
+      Livros.add(this).then(resposta => {
+        this.Livros = resposta.data
+      })
+    }
+    
   }
 }
 
