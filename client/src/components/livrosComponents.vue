@@ -7,79 +7,113 @@
       </div>
     </nav>
 
+    <ul>
+      <li v-for="(error, index) of errors" :key="index">
+        campo <b>{{ erro.field }}</b>{{ erro.defaultMessage }}
+      </li>
+    </ul>
+
     <div class="container">
-
-      <ul>
-        <li v-for="(error, index) of errors" :key="index">
-          campo <b> {{error.field}} </b> - {{ error.defaultMessage }}
-        </li>
-      </ul>    
-
-      <form>
-
+      {{livroServices_.id}}
+      {{livroServices_.titulo}}
+      {{livroServices_.autor}}
+      {{livroServices_.lido}}
+      
+      <!--Metodo para salvar os dados do formulário-->
+      <form @submit.prevent="salvar()">
           <label>Id</label>
-          <input v-model="livro.id" type="number" placeholder="Id">
-          <label>livro</label>
-          <input v-model="livro.livro" type="text" placeholder="Nome">
-          <label>autor</label>
-          <input v-model="livro.autor" type="text" placeholder="Autor">
+          <input type="number" placeholder="Id" v-model="livroServices_.id">
+          <label>Título</label>
+          <input type="text" placeholder="Título do livro" v-model="livroServices_.titulo">
+          <label>Autor</label>
+          <input type="text" placeholder="nome do autor" v-model="livroServices_.autor">
           <label>Lido</label>
-          <input v-model="livro.lido" type="text" placeholder="Já leu o livros? sim / nÃ£o">
-          <!--@click.prevent.stop="salvar()"-->
-          <button @click.prevent.stop="salvar()" class="waves-effect waves-light btn-small">Salvar<i class="material-icons left">save</i></button>
-
+          <input type="text" placeholder="já leu o livro? Sim/Não" v-model="livroServices_.lido">
+          <button class="waves-effect waves-light btn-small">Salvar<i class="material-icons left">save</i></button>
       </form>
+
       <table>
         <thead>
           <tr>
             <th>ID</th>
-            <th>NOME DO LIVRO</th>
-            <th>NOME DO AUTOR</th>
+            <th>TITULO</th>
+            <th>AUTOR</th>
             <th>LIDO</th>
           </tr>
         </thead>
+
         <tbody>
-          <tr v-for="livro in livros" :key="livro.id">
-              <td>{{ livro.id }}</td>
-              <td>{{ livro.livro }}</td>
-              <td>{{ livro.autor }}</td>
-              <td>{{ livro.lido }}</td>
-              <td>
-                <button @click.prevent.stop="editar(livro)" class="waves-effect btn-small blue darken-1"><i class="material-icons">create</i></button>
-                <button @click.prevent.stop="add(livro)" class="waves-effect btn-small red darken-1"><i class="material-icons">delete</i></button>
-              </td>
+          <tr v-for="livrosService of livroServices" :key="livrosService.id">
+            <td>{{ livrosService.id }}</td>
+            <td>{{ livrosService.titulo }}</td>
+            <td>{{ livrosService.autor }}}</td>
+            <td>{{ livrosService.lido }}</td>
+            <td>
+              <button class="waves-effect btn-small blue darken-1"><i class="material-icons">create</i></button>
+              <button class="waves-effect btn-small red darken-1"><i class="material-icons">delete_sweep</i></button>
+            </td>
           </tr>
-        </tbody>
-     </table>
+        </tbody>      
+      </table>
     </div>
   </div>
 </template>
 
-<script>
-// Mudei o nome da varial de import para ficar mais claro e diferenciar 
-// Mais os nomes entre variáveis
-// dois ponto(../)para procurar fora da pasta components
-import LivrosServices from '../services/livrosServices'
 
-export default {    
+<script>
+import LivroServices from './services/livroServices'
+export default {
   data(){
-    return {
-      //livros: null,
-      livros: null               
+    return{
+      //Objeto que vem do formulário
+      livroServices_: {
+        id: null,
+        titulo:null,
+        autor:null,
+        lido:null
+      },
+      //objeto que lista os dados
+      livroServices: [],
+      //quardando os erros do catch()
+      errors: []
     }
-  },  
+  },
   
-  //montando a resposta que vem de services Livros
-  //dentro da variavel Livro
-  mounted(){
-    LivrosServices.listar().then(resposta => {
-      console.log(resposta.data)
-      this.livros = resposta.data
-    })    
+  mounted(){ 
+    this.listar_()   
   },
 
-  // outros metodos
+  methods: {
+    //Listando os dados
+    listar_(){
+      LivroServices.listar().then(resposta => {
+        //console.log(resposta.data)
+        this.livroServices = resposta.data
+      })
+    },
 
+    // Salvando e listando os dados
+    salvar(){
+      LivroServices.add(this.livroServices_).then(resposta => {
+        this.livroServices_ = {}
+        alert('Salva com Sucesso!')
+        console.log(resposta.data)
+        this.listar_()
+        //Limpando os erros da aplicação
+        this.errors = []
+        // Tratando o erro com catch()
+        // mostrando somente os erros desejados
+        // guardando os erros em uma variável erros
+      }).catch(e =>{
+        console.log(e.response.data.errors)
+        this.errors = e.response.data.errors
+      })
+      //alert(this.livroServiceSalva.nome)
+    }
+
+  }
 }
-
 </script>
+
+<style>
+</style>
