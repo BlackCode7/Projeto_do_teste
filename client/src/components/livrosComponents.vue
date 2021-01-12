@@ -26,12 +26,10 @@
           <label>Lido</label>
           <input v-model="livro.lido" type="text" placeholder="Já leu o livros? sim / nÃ£o">
           <!--@click.prevent.stop="salvar()"-->
-          <button class="waves-effect waves-light btn-small">Salvar<i class="material-icons left">save</i></button>
+          <button @click.prevent.stop="salvar()" class="waves-effect waves-light btn-small">Salvar<i class="material-icons left">save</i></button>
 
       </form>
-
       <table>
-
         <thead>
           <tr>
             <th>ID</th>
@@ -40,72 +38,48 @@
             <th>LIDO</th>
           </tr>
         </thead>
-
         <tbody>
           <tr v-for="livro in livros" :key="livro.id">
-            <td>{{ livro.id }}</td>
-            <td>{{ livro.livro }}</td>
-            <td>{{ livro.autor }}</td>
-            <td>{{ livro.lido }}</td>
-            <td>
-              <!--@click.prevent.stop="editar(livro)" -->
-              <button class="waves-effect btn-small blue darken-1"><i class="material-icons">create</i></button>
-              <!--@click.prevent.stop="deletar(livro)"-->
-              <button class="waves-effect btn-small red darken-1"><i class="material-icons">delete</i></button>
-
-            </td>
+              <td>{{ livro.id }}</td>
+              <td>{{ livro.livro }}</td>
+              <td>{{ livro.autor }}</td>
+              <td>{{ livro.lido }}</td>
+              <td>
+                <button @click.prevent.stop="editar(livro)" class="waves-effect btn-small blue darken-1"><i class="material-icons">create</i></button>
+                <button @click.prevent.stop="add(livro)" class="waves-effect btn-small red darken-1"><i class="material-icons">delete</i></button>
+              </td>
           </tr>
         </tbody>
-      
-      </table>
-
+     </table>
     </div>
-
   </div>
 </template>
 
 <script>
 // Mudei o nome da varial de import para ficar mais claro e diferenciar 
 // Mais os nomes entre variáveis
-import Livros from '../services/Livros'
+// dois ponto(../)para procurar fora da pasta components
+import LivrosServices from '../services/livrosServices'
+
 export default {    
   data(){
     return {
       //livros: null,
-      livro: {        
-        id: null,
-        livros: null,
-        autor:null,
-        lido: null
-      },
-      
-      Livros:null,
-         
+      livros: null               
     }
   },  
   
   //montando a resposta que vem de services Livros
   //dentro da variavel Livro
   mounted(){
-    this.listar(),
-    this.add()
+    LivrosServices.listar().then(resposta => {
+      console.log(resposta.data)
+      this.livros = resposta.data
+    })    
   },
 
-  methods: {    
-    // Listar os itens da lista de livros
-    listar(){
-      Livros.listar().then(resposta => {
-        this.Livros = resposta.data
-      })
-    },
-    
-    add(){
-      Livros.add(this).then(resposta => {
-        this.Livros = resposta.data
-      })
-    }
-    
-  }
+  // outros metodos
+
 }
 
 </script>

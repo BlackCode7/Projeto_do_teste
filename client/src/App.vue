@@ -1,16 +1,28 @@
 <template>
-  <livros-anderson></livros-anderson>
+  
 </template>
 
 <script>
 //mudei o nome do import pra poder diferenciar
-import componenteLivro from './components/livros'
+//import componenteLivro from './components/livros'
+import LivroService from './services/livrosServices'
 
 export default {
-   components: {
-     //nome da tag <livros-anderson>
-     'livros-anderson': componenteLivro
-   }
+
+  data() {
+    return {
+      // Referencia ao LivroService no mounted
+      livroservice: null
+    }     
+  },
+  mounted() {
+    LivroService.listar().then(resposta => {
+      console.log(resposta.data)
+      //pegando livroservices de data(){} para receber
+      //o resposta.data
+      this.livroservice = resposta.data
+    })    
+  }    
 }
 
 </script>

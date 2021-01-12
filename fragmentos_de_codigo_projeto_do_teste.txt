@@ -1,6 +1,13 @@
 services/Livros.js
 
-// Métodos para salvar items
+import { http } from './config'
+
+// Este é o meu sufixo
+export default{
+    // Método para listar items
+    listar:() => {
+        return http.get('Livros')
+    },
     salvar:(livros) => {
         return http.post('Livros', livros)
     },
@@ -9,13 +16,108 @@ services/Livros.js
     },
     deletar:(livros) => {
         return http.delete('Livros', {data: livros})
-    }
+    }    
+}
 
+#########################################################################
 
 components/livros.vue
 
-// Salvar itens da lista e listar na tela ao mesmo tempo
-    salvar(){
+<template>
+  <div id="app">
+
+    <nav>
+      <div class="nav-wrapper blue darken-1">
+        <a href="#" class="brand-logo center">Cadastro de Livros</a>
+      </div>
+    </nav>
+
+    <div class="container">
+
+      <ul>
+        <li v-for="(error, index) of errors" :key="index">
+          campo <b> {{error.field}} </b> - {{ error.defaultMessage }}
+        </li>
+      </ul>    
+
+      <form>
+
+          <label>Id</label>
+          <input v-model="livro.id" type="number" placeholder="Id">
+          <label>livro</label>
+          <input v-model="livro.livro" type="text" placeholder="Nome">
+          <label>autor</label>
+          <input v-model="livro.autor" type="text" placeholder="Autor">
+          <label>Lido</label>
+          <input v-model="livro.lido" type="text" placeholder="Já leu o livros? sim / nÃ£o">
+          <!--@click.prevent.stop="salvar()"-->
+          <button @click.prevent.stop="salvar()" class="waves-effect waves-light btn-small">Salvar<i class="material-icons left">save</i></button>
+
+      </form>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>NOME DO LIVRO</th>
+            <th>NOME DO AUTOR</th>
+            <th>LIDO</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="livro in livros" :key="livro.id">
+              <td>{{ livro.id }}</td>
+              <td>{{ livro.livro }}</td>
+              <td>{{ livro.autor }}</td>
+              <td>{{ livro.lido }}</td>
+              <td>
+                <button @click.prevent.stop="editar(livro)" class="waves-effect btn-small blue darken-1"><i class="material-icons">create</i></button>
+                <button @click.prevent.stop="add(livro)" class="waves-effect btn-small red darken-1"><i class="material-icons">delete</i></button>
+              </td>
+          </tr>
+        </tbody>
+     </table>
+    </div>
+  </div>
+</template>
+
+<script>
+// Mudei o nome da varial de import para ficar mais claro e diferenciar 
+// Mais os nomes entre variáveis
+import Livros from '../services/Livros'
+export default {    
+  data(){
+    return {
+      //livros: null,
+      livro: {        
+        id: null,
+        livros: null,
+        autor:null,
+        lido: null
+      },
+      
+      Livros:null,
+         
+    }
+  },  
+  
+  //montando a resposta que vem de services Livros
+  //dentro da variavel Livro
+  mounted(){
+    this.listar(),
+    this.add()
+  },
+
+  methods: {    
+    // Listar os itens da lista de livros
+    listar(){
+      Livros.listar().then(resposta => {
+        console.log(resposta.data)
+        this.Livros = resposta.data
+      })
+    },
+    
+    // Salvar itens da lista e listar na tela ao mesmo tempo
+    add(){
       if(this.livro.id){
         serviceLivros.salvar(this.livro).then(resposta => {
           this.livro = {}
@@ -40,10 +142,13 @@ components/livros.vue
         })
       }
     },
+
     // Editar itens da lista
     edit(livro){
       this.livro = livro
+    
     },
+
     // Remover itens da lista
     deletar(livro) {
       if(confirm('Deseja realmente excluir o livro:')){
@@ -56,3 +161,60 @@ components/livros.vue
         })
       }
     }
+
+}
+
+</script>
+
+#########################################################################
+
+
+
+// Salvar itens da lista e listar na tela ao mesmo tempo
+    add(){
+      if(this.livro.id){
+        serviceLivros.salvar(this.livro).then(resposta => {
+          this.livro = {}
+          console.log(resposta.data)
+          alert('Livro salvo com sucesso!')
+          this.listar()
+          this.errors = []
+        }).catch(e => {
+          console.log(e.resposta.data.errors)
+          this.errors = e.resposta.data.errors
+        })
+      }else{
+        serviceLivros.atualizar(this.livro).then(resposta => {
+          this.livro = {}
+          console.log(resposta.data)
+          alert('Atualizado com Sucesso!')
+          this.listar()
+          this.errors = []
+        }).catch(e => {
+          console.log(e.resposta.data.errors)
+          this.errors = e.resposta.data
+        })
+      }
+    },
+
+    // Editar itens da lista
+    edit(livro){
+      this.livro = livro
+    
+    },
+
+    // Remover itens da lista
+    deletar(livro) {
+      if(confirm('Deseja realmente excluir o livro:')){
+        serviceLivros.delete(livro).then(resposta => {
+          console.log(resposta)
+          this.listar();
+          this.errors = []
+        }).catch(e => {
+          this.errors = e.response.data.errors
+        })
+      }
+    }
+
+
+
