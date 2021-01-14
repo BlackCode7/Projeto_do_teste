@@ -1,13 +1,16 @@
-import { http } from './configServices'
+import  { http } from './configServices'
 
 export default {
     //criando o metodo para listar os métodos
     // com o verbo get() pegando o Livros no 
     // final da url (sufixo)
-    listar:() => {
+    listar_:() => {
         return http.get('Livros')
     },
-    add:(Livro) => {
-        return http.post('Livro', Livro)
+
+    // Aqui é onde esta o problema do porque não 
+    // consigo fazer a aplicação funcionar
+    add:(add) => {
+        return http.post('add', add)
     }
 }

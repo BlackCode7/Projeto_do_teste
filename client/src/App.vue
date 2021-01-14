@@ -20,7 +20,7 @@
       {{livroServices_.lido}}
       
       <!--Metodo para salvar os dados do formulário-->
-      <form @submit.prevent="salvar()">
+      <form @submit.prevent="salvar">
           <label>Id</label>
           <input type="number" placeholder="Id" v-model="livroServices_.id">
           <label>Título</label>
@@ -29,6 +29,7 @@
           <input type="text" placeholder="nome do autor" v-model="livroServices_.autor">
           <label>Lido</label>
           <input type="text" placeholder="já leu o livro? Sim/Não" v-model="livroServices_.lido">
+
           <button class="waves-effect waves-light btn-small">Salvar<i class="material-icons left">save</i></button>
       </form>
 
@@ -42,12 +43,13 @@
           </tr>
         </thead>
 
+        <!-- LIstagem de dados -->
         <tbody>
-          <tr v-for="livrosService of livroServices" :key="livrosService.id">
-            <td>{{ livrosService.id }}</td>
-            <td>{{ livrosService.titulo }}</td>
-            <td>{{ livrosService.autor }}}</td>
-            <td>{{ livrosService.lido }}</td>
+          <tr v-for="livroService of livroServices" :key="livroService.id">
+            <td>{{ livroService.id }}</td>
+            <td>{{ livroService.titulo }}</td>
+            <td>{{ livroService.autor }}}</td>
+            <td>{{ livroService.lido }}</td>
             <td>
               <button class="waves-effect btn-small blue darken-1"><i class="material-icons">create</i></button>
               <button class="waves-effect btn-small red darken-1"><i class="material-icons">delete_sweep</i></button>
@@ -60,17 +62,17 @@
 </template>
 
 <script>
-import LivroServices from './services/livroServices'
+import LivroServices from './services/livrosServices'
 export default {
   data(){
-    return{
-      //Objeto que vem do formulário
+    return{           
+      //Objeto que vem do formulário LIGADO ATRAVÉS DO V-MODEL
       livroServices_: {
         id: null,
         titulo:null,
         autor:null,
         lido:null
-      },
+      },            
       //objeto que lista os dados
       livroServices: [],
       //quardando os erros do catch()
@@ -79,27 +81,50 @@ export default {
   },
   
   mounted(){ 
-    this.listar_()   
+    LivroServices.listar_().then(resposta => {
+      console.log(resposta.data)
+      this.livroServices = resposta.data
+    })
+    //this.listar()   
   },
 
-  methods: {
-    //Listando os dados
-    listar_(){
-      LivroServices.listar().then(resposta => {
+  /*
+  //Listando os dados
+    listar(){
+      LivroServices.listar_().then(resposta => {
         //console.log(resposta.data)
-        this.livroServices = resposta.data
+        this.livroServices_ = resposta.data
+        //this.livroServices = resposta.data
       })
     },
+  */
 
+
+  // Crianção de métodos listar() salvar() deletar() atualizar()
+  methods: {    
     // Salvando e listando os dados
     salvar(){
       LivroServices.add(this.livroServices_).then(resposta => {
+        alert('salvo com sucesso!')
+        console.log(resposta.data)
+      })
+
+      //alert(this.livroServices_.id, this.livroServices_.titulo, 
+      //        this.livroServices_.autor, this.livroServices_.lido)
+    }
+  }
+}
+
+/*
+LivroServices.add(this.livroServices_).then(resposta => {
         this.livroServices_ = {}
-        alert('Salva com Sucesso!')
+        alert(this.livroServices_.id, this.livroServices_.titulo, 
+              this.livroServices_.autor, this.livroServices_.lido)
+
         console.log(resposta.data)
         this.listar_()
         //Limpando os erros da aplicação
-        this.errors = []
+        //this.errors = []
         // Tratando o erro com catch()
         // mostrando somente os erros desejados
         // guardando os erros em uma variável erros
@@ -107,11 +132,8 @@ export default {
         console.log(e.response.data.errors)
         this.errors = e.response.data.errors
       })
-      //alert(this.livroServiceSalva.nome)
-    }
+*/
 
-  }
-}
 </script>
 
 <style>
