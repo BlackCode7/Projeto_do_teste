@@ -45,14 +45,14 @@
 
         <!-- LIstagem de dados -->
         <tbody>
-          <tr v-for="livroService of livroServices" :key="livroService.id">
+          <tr v-for="livroService of livroServicesLista" :key="livroService.id">
             <td>{{ livroService.id }}</td>
             <td>{{ livroService.titulo }}</td>
             <td>{{ livroService.autor }}}</td>
             <td>{{ livroService.lido }}</td>
             <td>
               <button class="waves-effect btn-small blue darken-1"><i class="material-icons">create</i></button>
-              <button class="waves-effect btn-small red darken-1"><i class="material-icons">delete_sweep</i></button>
+              <button class="waves-effect btn-small red  darken-1"><i class="material-icons">delete_sweep</i></button>
             </td>
           </tr>
         </tbody>      
@@ -74,7 +74,7 @@ export default {
         lido:null
       },            
       //objeto que lista os dados
-      livroServices: [],
+      livroServicesLista: [],
       //quardando os erros do catch()
       errors: []
     }
@@ -83,21 +83,23 @@ export default {
   mounted(){ 
     LivroServices.listar_().then(resposta => {
       console.log(resposta.data)
-      this.livroServices = resposta.data
+      // Aqui o nome livroServicesLista vai para a
+      // listagem de livros abaixo do formulario
+      this.livroServicesLista = resposta.data
     })
     //this.listar()   
   },
 
-  /*
+ 
   //Listando os dados
-    listar(){
-      LivroServices.listar_().then(resposta => {
-        //console.log(resposta.data)
-        this.livroServices_ = resposta.data
-        //this.livroServices = resposta.data
-      })
-    },
-  */
+  //  listar(){
+  //    LivroServices.listar_().then(resposta => {
+  //      //console.log(resposta.data)
+  //      this.livroServices_ = resposta.data
+  //      //this.livroServices = resposta.data
+  //    })
+  //  },
+  
 
 
   // Crianção de métodos listar() salvar() deletar() atualizar()

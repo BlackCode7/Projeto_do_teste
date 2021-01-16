@@ -10,13 +10,13 @@ db = SQLAlchemy(app)
 
 class BancoLivro(db.Model):
     id = db.Column('id', db.Integer, primary_key=True)
-    titulo = db.Column(db.String(100), nullable=False)
+    livro = db.Column(db.String(100), nullable=False)
     autor = db.Column(db.String(100), nullable=False)
     lido = db.Column(db.String(3), nullable=False)
 
-    def __init__(self, id, titulo, autor, lido):
+    def __init__(self, id, livro, autor, lido):
         self.id = id
-        self.titulo = titulo
+        self.livro = livro
         self.autor = autor
         self.lido = lido
         
@@ -33,24 +33,34 @@ def index():
     return jsonify(livros)    
 
 
-@app.route('/Add', methods=['POST'])
+@app.route('/add', methods=['GET', 'POST'])
 def add():
     if request.method == 'POST':
-        #adic_livro = BancoLivro(request.form['id'], request.form['livro'],
-        #                   request.form['autor'], request.form['lido'])
-        id = request.form.get('id')
-        titulo = request.form.get('titulo')
-        autor = request.form.get('autor')
-        lido = request.form.get('lido')
-        banco_livro = BancoLivro(id, titulo, autor, lido)
-        db.session.add(banco_livro)
+        adic_livro = BancoLivro(request.form['id'], 
+                                request.form['livro'],
+                                request.form['autor'],  
+                                request.form['lido'])
+        db.session.add(adic_livro)
         db.session.commit()
-        return jsonify({banco_livro.id: {
-            'id': str(banco_livro.id),
-            'titulo': banco_livro.titulo,
-            'autor': banco_livro.autor,
-            'lido': banco_livro.lido            
-        }})
+        #aqui salvamos no banco
+        #return jsonify(adic_livro)
+        return redirect(url_for('index'))    
+    return render_template('add.html')
+        
+        
+        #id = request.form.get('id')
+        #livro = request.form.get('titulo')
+        #autor = request.form.get('autor')
+        #lido = request.form.get('lido')
+        #banco_livro = BancoLivro(id, livro, autor, lido)
+        #db.session.add(banco_livro)
+        #db.session.commit()
+        #return jsonify({banco_livro.id: {
+        #    'id': str(banco_livro.id),
+        #    'livro': banco_livro.titulo,
+        #    'autor': banco_livro.autor,
+        #    'lido': banco_livro.lido            
+        #}})
         #db.session.add()
         #aqui salvamos no banco
         #return jsonify(adic_livro)
