@@ -36,17 +36,20 @@ def index():
 
 @app.route('/add', methods=['GET', 'POST'])
 def add():
-    if request.method == 'POST':
-        adic_livro = BancoLivro(request.form['id'], 
-                                request.form['livro'],
-                                request.form['autor'],  
-                                request.form['lido'])
-        db.session.add(adic_livro)
-        db.session.commit()        
-        #aqui salvamos no banco                 
-        return redirect(url_for('index'))    
-    return render_template('add.html')
-        
+    try:
+        if request.method == 'POST':
+            adic_livro = BancoLivro(request.form['id'], 
+                                    request.form['livro'],
+                                    request.form['autor'],  
+                                    request.form['lido'])
+            db.session.add(adic_livro)
+            db.session.commit()        
+            #aqui salvamos no banco                 
+            return redirect(url_for('index'))
+        return render_template('add.html')
+    except KeyError as e:
+        raise KeyError.BadRequestKeyError(str(e))    
+           
         #return redirect(jsonify(adic_livro)) errado
         #return jsonify()
         #return jsonify({

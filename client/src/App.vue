@@ -47,7 +47,7 @@
         <tbody>
           <tr v-for="livroService of livroServicesLista" :key="livroService.id">
             <td>{{ livroService.id }}</td>
-            <td>{{ livroService.titulo }}</td>
+            <td>{{ livroService.livro }}</td>
             <td>{{ livroService.autor }}}</td>
             <td>{{ livroService.lido }}</td>
             <td>
@@ -78,14 +78,12 @@ export default {
       //quardando os erros do catch()
       errors: []
     }
-  },
-  
+  },  
   // Métodos para listagem de objetos preferêncialmento
   // fazemos dentro de mounted()
   mounted(){ 
     this.listar()   
-  },
- 
+  }, 
   // Crianção de métodos listar() salvar() deletar() atualizar()
   methods: {      
     listar(){
