@@ -2,6 +2,7 @@ from flask import Flask, render_template, url_for, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import redirect
 from flask_cors import CORS
+from flask_marshmallow import Marshmallow
 
 app = Flask(__name__, template_folder='templates')
 CORS(app)
@@ -41,12 +42,19 @@ def add():
                                 request.form['autor'],  
                                 request.form['lido'])
         db.session.add(adic_livro)
-        db.session.commit()
-        #aqui salvamos no banco
-        #return jsonify(adic_livro)
+        db.session.commit()        
+        #aqui salvamos no banco                 
         return redirect(url_for('index'))    
     return render_template('add.html')
         
+        #return redirect(jsonify(adic_livro)) errado
+        #return jsonify()
+        #return jsonify({
+        #    'id': adic_livro.id,
+        #    'livro': adic_livro.livro,
+        #    'autor': adic_livro.autor,
+        #    'lido': adic_livro.lido
+        #})
         
         #id = request.form.get('id')
         #livro = request.form.get('titulo')
@@ -77,8 +85,8 @@ def edit(id):
         editalivrobanco.autor = request.form['autor']
         editalivrobanco.lido = request.form['lido']
         db.session.commit()
-        return jsonify(editalivrobanco)
-        #return redirect(url_for('index'))
+        #return jsonify(editalivrobanco)
+        return redirect(url_for('index'))
     return render_template('edit.html', editalivrobanco=editalivrobanco)
 
 
@@ -87,8 +95,8 @@ def delete_(id):
     deleta_livro_banco = BancoLivro.query.get(id)
     db.session.delete(deleta_livro_banco)
     db.session.commit()
-    return jsonify(deleta_livro_banco)
-    #return redirect(url_for('index'))
+    #return jsonify(deleta_livro_banco)
+    return redirect(url_for('index'))
 
 
 if __name__ == '__main__':

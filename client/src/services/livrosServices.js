@@ -10,7 +10,7 @@ export default {
 
     // Aqui é onde esta o problema do porque não 
     // consigo fazer a aplicação funcionar
-    add:(add) => {
-        return http.post('add', add)
+    salvar_:() => {
+        return http.post('add')
     }
 }

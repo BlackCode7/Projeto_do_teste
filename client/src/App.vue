@@ -24,7 +24,7 @@
           <label>Id</label>
           <input type="number" placeholder="Id" v-model="livroServices_.id">
           <label>Título</label>
-          <input type="text" placeholder="Título do livro" v-model="livroServices_.titulo">
+          <input type="text" placeholder="Título do livro" v-model="livroServices_.livro">
           <label>Autor</label>
           <input type="text" placeholder="nome do autor" v-model="livroServices_.autor">
           <label>Lido</label>
@@ -69,7 +69,7 @@ export default {
       //Objeto que vem do formulário LIGADO ATRAVÉS DO V-MODEL
       livroServices_: {
         id: null,
-        titulo:null,
+        livro:null,
         autor:null,
         lido:null
       },            
@@ -80,36 +80,41 @@ export default {
     }
   },
   
+  // Métodos para listagem de objetos preferêncialmento
+  // fazemos dentro de mounted()
   mounted(){ 
-    LivroServices.listar_().then(resposta => {
-      console.log(resposta.data)
-      // Aqui o nome livroServicesLista vai para a
-      // listagem de livros abaixo do formulario
-      this.livroServicesLista = resposta.data
-    })
-    //this.listar()   
+    this.listar()   
   },
-
  
-  //Listando os dados
-  //  listar(){
-  //    LivroServices.listar_().then(resposta => {
-  //      //console.log(resposta.data)
-  //      this.livroServices_ = resposta.data
-  //      //this.livroServices = resposta.data
-  //    })
-  //  },
-  
-
-
   // Crianção de métodos listar() salvar() deletar() atualizar()
-  methods: {    
+  methods: {      
+    listar(){
+      LivroServices.listar_().then(resposta => {
+        this.livroServicesLista = resposta.data
+      })
+    },    
     // Salvando e listando os dados
     salvar(){
-      LivroServices.add(this.livroServices_).then(resposta => {
-        alert('salvo com sucesso!')
-        console.log(resposta.data)
+      LivroServices.salvar_(this.livroServicesOBJ).then(resposta => {
+        this.livroServicesOBJ = resposta.data
+
       })
+
+      
+        //Listando os dados
+        //  listar(){
+        //    LivroServices.listar_().then(resposta => {
+        //      //console.log(resposta.data)
+        //      this.livroServices_ = resposta.data
+        //      //this.livroServices = resposta.data
+        //    })
+        //  },
+        //console.log(resposta.data)
+        // Aqui o nome livroServicesLista vai para a
+        // listagem de livros abaixo do formulario
+
+      //alert('salvo com sucesso!')
+      //  console.log(resposta.data)
 
       //alert(this.livroServices_.id, this.livroServices_.titulo, 
       //        this.livroServices_.autor, this.livroServices_.lido)
