@@ -10,7 +10,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cadastroLivros.sqlite3'
 db = SQLAlchemy(app)
 
 class BancoLivro(db.Model):
-    id = db.Column('id', db.Integer, primary_key=True)
+    id = db.Column( db.Integer, primary_key=True)
     livro = db.Column(db.String(100), nullable=False)
     autor = db.Column(db.String(100), nullable=False)
     lido = db.Column(db.String(3), nullable=False)
@@ -36,20 +36,18 @@ def index():
 
 @app.route('/add', methods=['GET', 'POST'])
 def add():
-    try:
-        if request.method == 'POST':
-            adic_livro = BancoLivro(request.form['id'], 
-                                    request.form['livro'],
-                                    request.form['autor'],  
-                                    request.form['lido'])
-            db.session.add(adic_livro)
-            db.session.commit()        
-            #aqui salvamos no banco                 
-            return redirect(url_for('index'))
-        return render_template('add.html')
-    except KeyError as e:
-        raise KeyError.BadRequestKeyError(str(e))    
-           
+    if request.method == 'POST':
+        adic_livro = BancoLivro(request.form['id'], 
+                                request.form['livro'],
+                                request.form['autor'],  
+                                request.form['lido'])
+        db.session.add(adic_livro)
+        db.session.commit()        
+        #aqui salvamos no banco  
+        #return jsonify(adic_livro.to_json())               
+        return redirect(url_for('index'))
+    return render_template('add.html')
+              
         #return redirect(jsonify(adic_livro)) errado
         #return jsonify()
         #return jsonify({

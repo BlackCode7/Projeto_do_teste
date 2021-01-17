@@ -21,7 +21,7 @@
       
       <!--Metodo para salvar os dados do formulário-->
       <form @submit.prevent="salvar">
-          <label>Id</label>
+          <label>Id</label>                              <!--livroServices_-->
           <input type="number" placeholder="Id" v-model="livroServices_.id">
           <label>Título</label>
           <input type="text" placeholder="Título do livro" v-model="livroServices_.livro">
@@ -67,6 +67,7 @@ export default {
   data(){
     return{           
       //Objeto que vem do formulário LIGADO ATRAVÉS DO V-MODEL
+      //livroServices_
       livroServices_: {
         id: null,
         livro:null,
@@ -75,6 +76,7 @@ export default {
       },            
       //objeto que lista os dados
       livroServicesLista: [],
+      
       //quardando os erros do catch()
       errors: []
     }
@@ -93,9 +95,12 @@ export default {
     },    
     // Salvando e listando os dados
     salvar(){
-      LivroServices.salvar_(this.livroServicesOBJ).then(resposta => {
-        this.livroServicesOBJ = resposta.data
-
+      LivroServices.salvar_(this.livroServices_).then(resposta => {
+        this.livroServices_ = {}
+        alert("Salvo com Sucesso!")
+        //console.log(resposta.data)
+        this.listar(resposta.data)
+        //this.livroServicesOBJ = resposta.data
       })
 
       
