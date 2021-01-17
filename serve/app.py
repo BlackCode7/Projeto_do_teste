@@ -10,7 +10,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cadastroLivros.sqlite3'
 db = SQLAlchemy(app)
 
 class BancoLivro(db.Model):
-    id = db.Column( db.Integer, primary_key=True)
+    id = db.Column('id', db.Integer, primary_key=True)
     livro = db.Column(db.String(100), nullable=False)
     autor = db.Column(db.String(100), nullable=False)
     lido = db.Column(db.String(3), nullable=False)

@@ -20,7 +20,7 @@
       {{livroServices_.lido}}
       
       <!--Metodo para salvar os dados do formulário-->
-      <form @submit.prevent="salvar">
+      <form @click.prevent="salvar" action="post">
           <label>Id</label>                              <!--livroServices_-->
           <input type="number" placeholder="Id" v-model="livroServices_.id">
           <label>Título</label>
@@ -77,6 +77,7 @@ export default {
       //objeto que lista os dados
       livroServicesLista: [],
       
+      
       //quardando os erros do catch()
       errors: []
     }
@@ -98,8 +99,8 @@ export default {
       LivroServices.salvar_(this.livroServices_).then(resposta => {
         this.livroServices_ = {}
         alert("Salvo com Sucesso!")
-        //console.log(resposta.data)
-        this.listar(resposta.data)
+        console.log(resposta.data)
+        this.listar()
         //this.livroServicesOBJ = resposta.data
       })
 
