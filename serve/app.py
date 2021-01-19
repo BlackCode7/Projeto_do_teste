@@ -10,7 +10,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cadastroLivros.sqlite3'
 db = SQLAlchemy(app)
 
 class BancoLivro(db.Model):
-    id = db.Column('id', db.Integer, primary_key=True)
+    #db.Integer, primary_key=True
+    id = db.Column(db.Integer, primary_key=True)
     livro = db.Column(db.String(100), nullable=False)
     autor = db.Column(db.String(100), nullable=False)
     lido = db.Column(db.String(3), nullable=False)
@@ -40,7 +41,8 @@ def add():
         adic_livro = BancoLivro(request.form['id'], 
                                 request.form['livro'],
                                 request.form['autor'],  
-                                request.form['lido'])
+                                request.form['lido']
+                                )
         db.session.add(adic_livro)
         db.session.commit()        
         #aqui salvamos no banco  

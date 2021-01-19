@@ -9,7 +9,7 @@
 
     <ul>
       <li v-for="(error, index) of errors" :key="index">
-        campo <b>{{ erro.field }}</b>{{ erro.defaultMessage }}
+        campo <b>{{ error.field }}</b>{{ error.defaultMessage }}
       </li>
     </ul>
 
@@ -20,7 +20,7 @@
       {{livroServices_.lido}}
       
       <!--Metodo para salvar os dados do formulário-->
-      <form @click.prevent="salvar" action="post">
+      <form @click.capture="salvar" action="post">
           <label>Id</label>                              <!--livroServices_-->
           <input type="number" placeholder="Id" v-model="livroServices_.id">
           <label>Título</label>
@@ -51,8 +51,8 @@
             <td>{{ livroService.autor }}}</td>
             <td>{{ livroService.lido }}</td>
             <td>
-              <button class="waves-effect btn-small blue darken-1"><i class="material-icons">create</i></button>
-              <button class="waves-effect btn-small red  darken-1"><i class="material-icons">delete_sweep</i></button>
+              <button @click="editar(livroService)" class="waves-effect btn-small blue darken-1"><i class="material-icons">EditarBTN</i></button>
+              <button class="waves-effect btn-small red  darken-1"><i class="material-icons">DeleteBTN</i></button>
             </td>
           </tr>
         </tbody>      
@@ -77,7 +77,6 @@ export default {
       //objeto que lista os dados
       livroServicesLista: [],
       
-      
       //quardando os erros do catch()
       errors: []
     }
@@ -96,32 +95,38 @@ export default {
     },    
     // Salvando e listando os dados
     salvar(){
-      LivroServices.salvar_(this.livroServices_).then(resposta => {
-        this.livroServices_ = {}
-        alert("Salvo com Sucesso!")
-        console.log(resposta.data)
-        this.listar()
-        //this.livroServicesOBJ = resposta.data
-      })
+      // Condicional para ver se exite o objeto e modificar seus valores
+      if(!this.livroServices_.id){
+        //this.livroServices_
+        LivroServices.salvar_(this.livroServices_).then(resposta => {
+            this.livroServices_ = resposta.data
+            alert("Salvo com Sucesso!")
+            console.log(resposta.data)
+            this.listar()
+            this.errors = []
+            //this.livroServicesOBJ = resposta.data
+          }).catch(e => {
+            console.log(e.response.data.errors)
+            this.errors = e.response.data.errors
+          })
+      }else{
+        //this.livroServices_
+        LivroServices.atualizar_(this.livroServices_).then(resposta => {
+          this.livroServices_ = resposta.data
+          alert("Atualizado com Sucesso!")
+          console.log(resposta.data)
+          this.listar()
+          this.errors = []
+          //this.livroServicesOBJ = resposta.data
+        }).catch(e => {
+          console.log(e.response.data.errors)
+          this.errors = e.response.data.errors
+        })
+      }      
+    },
 
-      
-        //Listando os dados
-        //  listar(){
-        //    LivroServices.listar_().then(resposta => {
-        //      //console.log(resposta.data)
-        //      this.livroServices_ = resposta.data
-        //      //this.livroServices = resposta.data
-        //    })
-        //  },
-        //console.log(resposta.data)
-        // Aqui o nome livroServicesLista vai para a
-        // listagem de livros abaixo do formulario
-
-      //alert('salvo com sucesso!')
-      //  console.log(resposta.data)
-
-      //alert(this.livroServices_.id, this.livroServices_.titulo, 
-      //        this.livroServices_.autor, this.livroServices_.lido)
+    editar(livroServices_){
+      this.livroServices_ = livroServices_  
     }
   }
 }
@@ -143,6 +148,25 @@ LivroServices.add(this.livroServices_).then(resposta => {
         console.log(e.response.data.errors)
         this.errors = e.response.data.errors
       })
+
+              //Listando os dados
+        //  listar(){
+        //    LivroServices.listar_().then(resposta => {
+        //      //console.log(resposta.data)
+        //      this.livroServices_ = resposta.data
+        //      //this.livroServices = resposta.data
+        //    })
+        //  },
+        //console.log(resposta.data)
+        // Aqui o nome livroServicesLista vai para a
+        // listagem de livros abaixo do formulario
+
+      //alert('salvo com sucesso!')
+      //  console.log(resposta.data)
+
+      //alert(this.livroServices_.id, this.livroServices_.titulo, 
+      //        this.livroServices_.autor, this.livroServices_.lido)
+
 */
 
 </script>
