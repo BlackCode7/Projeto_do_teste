@@ -52,7 +52,7 @@
             <td>{{ livroService.lido }}</td>
             <td>
               <button @click="editar(livroService)" class="waves-effect btn-small blue darken-1"><i class="material-icons">EditarBTN</i></button>
-              <button class="waves-effect btn-small red  darken-1"><i class="material-icons">DeleteBTN</i></button>
+              <button @click="remover(livroService)" class="waves-effect btn-small red  darken-1"><i class="material-icons">DeleteBTN</i></button>
             </td>
           </tr>
         </tbody>      
@@ -127,7 +127,21 @@ export default {
 
     editar(livroServices_){
       this.livroServices_ = livroServices_  
-    }
+    },
+
+    // Não consegui implementar o método remover()
+    //remover(livroServices_){
+
+      //if(confirm('Deseja realmente excluir o livro?')){
+      //  LivroServices.remover_(livroServices_).then({
+      //    this.listar();
+      //    this.errors = []
+      //  }).catch(e => {
+      //    this.errors = e.response.data.errors  
+      //    console.log(resposta.data)
+      //  })
+      //}
+    //}
   }
 }
 

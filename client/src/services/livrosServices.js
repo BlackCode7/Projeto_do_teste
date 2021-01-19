@@ -17,7 +17,11 @@ export default {
     },
 
     // Método para atualizar os dados
-    atualizar_: (Livros)=> {
+    atualizar_: (Livros) => {
         return http.put('Livros', Livros)
+    },
+
+    remover_:(Livros) => {
+        return http.delete('Livros', {data: Livros})
     }
 }
